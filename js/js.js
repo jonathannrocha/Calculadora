@@ -4,6 +4,7 @@ let teclado = select(".teclado")
 let visor = select('.visor')
 let operadores = [ "AC","C","/","=","x"]
 let verificador = 0;
+let resultado 
 
 
 teclado.addEventListener("click", (sinal)=> {
@@ -13,7 +14,6 @@ teclado.addEventListener("click", (sinal)=> {
 
     let alvo = sinal.target
     let valor = alvo.innerHTML
-    let resultado = visor.innerHTML
     
     if(verificador == 1 ) {
         visor.innerHTML = ""
@@ -36,9 +36,7 @@ teclado.addEventListener("click", (sinal)=> {
 
             } 
             
-            if(valor == operadores[4]){
-                valor = "*"
-            }
+            
 
         }
     })
@@ -47,7 +45,17 @@ teclado.addEventListener("click", (sinal)=> {
     
 
     if (valor === operadores[3] ) {
-        visor.innerHTML= eval(resultado)
+        
+        resultado = visor.innerHTML
+        try {
+            visor.innerHTML= eval(resultado)
+          } catch (erro) {
+            if (erro instanceof SyntaxError) {
+               resultado =  visor.innerHTML.replace('x', '*')
+             visor.innerHTML= eval(resultado)
+            }
+           
+          }
         verificador++
     }else {
         verificador  = 0
